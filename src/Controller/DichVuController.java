@@ -42,7 +42,7 @@ public class DichVuController extends HttpServlet {
 			ArrayList<DichVuBean> ds=dvbo.GetDichVu();
 			
 			String ml=request.getParameter("ml"); //get ma loai
-			String key=request.getParameter("txttim"); // get value of input
+			String key=request.getParameter("txtkey"); // get value of input
 			
 			if(ml!=null) {
 				ds=dvbo.TimMa(ml);

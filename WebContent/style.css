@@ -1,6 +1,7 @@
 @charset "utf-8";
 body {
     font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .logo {

@@ -19,13 +19,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
 <!--NAVIGATION -->
 	<div class="container-fluid p-0 fixed-top shadow-lg">
         <nav class="navbar bg-main-color navbar-expand-lg navbar-light ">
-            <div class="container">
+            <div class="container p-0">
 	            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	          		<span class="navbar-toggler-icon"></span>
 	        	</button>
@@ -125,6 +128,9 @@
 				</c:if>
 			</c:forEach>
     		</select>
+    		<form class="" id="myForm" action="DichVuController" method="get">
+			  <input class="w-100 p-2 rounded mt-4 selectKey" type="text" name="txtkey" placeholder="Nhập tên món" onkeydown="handleKeyDown(event)">
+			</form>
 		</div>
 		<div class="col-12 col-md-10 p-0 row justify-content-around" >
 		<c:forEach var="dv" items="${dsdv}">
@@ -214,7 +220,7 @@
 <!-- MODAL LỊCH SỬ MUA HÀNG -->
 	<div class="modal fade" id="lichsumodal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog mw-100">
+		<div class="modal-dialog mw-100 px-1">
 			<div class="modal-content w-100">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Lịch sử mua hàng</h5>
@@ -303,6 +309,32 @@
 			if (event.key === 'Enter') {
 				input.form.submit();
 			}
+		}
+		
+		//Xử lý lấy dữ liệu từ input khi nhập vào
+		var xhr = new XMLHttpRequest();
+		var txtValue = ""; // Biến lưu trữ giá trị nhập liệu
+		
+		function handleKeyDown(event) {
+		  txtValue = event.target.value; // Cập nhật giá trị nhập liệu từ trường input
+		  sendDataToServlet(txtValue); // Gửi dữ liệu tới servlet
+		}
+		
+		function sendDataToServlet(txtValue) {
+		  xhr.onreadystatechange = function() {
+		    if (xhr.readyState === XMLHttpRequest.DONE) {
+		      if (xhr.status === 200) {
+		        // Xử lý phản hồi từ servlet (nếu cần)
+		        console.log(xhr.responseText);
+		      } else {
+		        console.log("Lỗi xảy ra khi gửi dữ liệu đến servlet.");
+		      }
+		    }
+		  };
+		  
+		  // Thay "DichVuController" bằng đường dẫn đến servlet thực tế
+		  xhr.open("GET", "DichVuController?txtkey=" + encodeURIComponent(txtValue), true);
+		  xhr.send();
 		}
 	</script>
 </body>
